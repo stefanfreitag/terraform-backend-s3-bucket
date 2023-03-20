@@ -1,0 +1,19 @@
+{
+  "version": "31.0.0",
+  "files": {
+    "c702dafbd55b31c6b314aba2314a9ee65cddd0b47019d4e2a2da3e50371d25d5": {
+      "source": {
+        "path": "terraform-state-backend.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "c702dafbd55b31c6b314aba2314a9ee65cddd0b47019d4e2a2da3e50371d25d5.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

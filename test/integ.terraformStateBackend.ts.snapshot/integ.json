@@ -1,0 +1,15 @@
+{
+  "version": "31.0.0",
+  "testCases": {
+    "MyTestCase/DefaultTest": {
+      "stacks": [
+        "terraform-state-backend"
+      ],
+      "regions": [
+        "eu-central-1"
+      ],
+      "assertionStack": "MyTestCase/DefaultTest/DeployAssert",
+      "assertionStackName": "MyTestCaseDefaultTestDeployAssertD814CC8D"
+    }
+  }
+}

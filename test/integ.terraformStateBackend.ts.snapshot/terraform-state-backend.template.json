@@ -1,0 +1,123 @@
+{
+ "Resources": {
+  "backendbucket05CC4638": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketName": "sf-terraform-state-bucket-61lac",
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    },
+    "VersioningConfiguration": {
+     "Status": "Enabled"
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain"
+  },
+  "backendbucketPolicyA2684283": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "backendbucket05CC4638"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "s3:*",
+       "Condition": {
+        "Bool": {
+         "aws:SecureTransport": "false"
+        }
+       },
+       "Effect": "Deny",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "backendbucket05CC4638",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "backendbucket05CC4638",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   }
+  },
+  "backendtable22833B12": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "KeySchema": [
+     {
+      "AttributeName": "LockID",
+      "KeyType": "HASH"
+     }
+    ],
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "LockID",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "TableName": "sf-terraform-state-lock-table-61lac"
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain"
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,254 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "terraform-state-backend": {
+        "id": "terraform-state-backend",
+        "path": "terraform-state-backend",
+        "children": {
+          "backend": {
+            "id": "backend",
+            "path": "terraform-state-backend/backend",
+            "children": {
+              "bucket": {
+                "id": "bucket",
+                "path": "terraform-state-backend/backend/bucket",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "terraform-state-backend/backend/bucket/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
+                      "aws:cdk:cloudformation:props": {
+                        "bucketName": "sf-terraform-state-bucket-61lac",
+                        "publicAccessBlockConfiguration": {
+                          "blockPublicAcls": true,
+                          "blockPublicPolicy": true,
+                          "ignorePublicAcls": true,
+                          "restrictPublicBuckets": true
+                        },
+                        "versioningConfiguration": {
+                          "status": "Enabled"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.CfnBucket",
+                      "version": "2.69.0"
+                    }
+                  },
+                  "Policy": {
+                    "id": "Policy",
+                    "path": "terraform-state-backend/backend/bucket/Policy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "terraform-state-backend/backend/bucket/Policy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::S3::BucketPolicy",
+                          "aws:cdk:cloudformation:props": {
+                            "bucket": {
+                              "Ref": "backendbucket05CC4638"
+                            },
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "s3:*",
+                                  "Condition": {
+                                    "Bool": {
+                                      "aws:SecureTransport": "false"
+                                    }
+                                  },
+                                  "Effect": "Deny",
+                                  "Principal": {
+                                    "AWS": "*"
+                                  },
+                                  "Resource": [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "backendbucket05CC4638",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          {
+                                            "Fn::GetAtt": [
+                                              "backendbucket05CC4638",
+                                              "Arn"
+                                            ]
+                                          },
+                                          "/*"
+                                        ]
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_s3.CfnBucketPolicy",
+                          "version": "2.69.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketPolicy",
+                      "version": "2.69.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3.Bucket",
+                  "version": "2.69.0"
+                }
+              },
+              "table": {
+                "id": "table",
+                "path": "terraform-state-backend/backend/table",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "terraform-state-backend/backend/table/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::DynamoDB::Table",
+                      "aws:cdk:cloudformation:props": {
+                        "keySchema": [
+                          {
+                            "attributeName": "LockID",
+                            "keyType": "HASH"
+                          }
+                        ],
+                        "attributeDefinitions": [
+                          {
+                            "attributeName": "LockID",
+                            "attributeType": "S"
+                          }
+                        ],
+                        "billingMode": "PAY_PER_REQUEST",
+                        "tableName": "sf-terraform-state-lock-table-61lac"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_dynamodb.CfnTable",
+                      "version": "2.69.0"
+                    }
+                  },
+                  "ScalingRole": {
+                    "id": "ScalingRole",
+                    "path": "terraform-state-backend/backend/table/ScalingRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.69.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_dynamodb.Table",
+                  "version": "2.69.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.0.5"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "terraform-state-backend/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.69.0"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "terraform-state-backend/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.69.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.69.0"
+        }
+      },
+      "MyTestCase": {
+        "id": "MyTestCase",
+        "path": "MyTestCase",
+        "children": {
+          "DefaultTest": {
+            "id": "DefaultTest",
+            "path": "MyTestCase/DefaultTest",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "MyTestCase/DefaultTest/Default",
+                "constructInfo": {
+                  "fqn": "constructs.Construct",
+                  "version": "10.0.5"
+                }
+              },
+              "DeployAssert": {
+                "id": "DeployAssert",
+                "path": "MyTestCase/DefaultTest/DeployAssert",
+                "children": {
+                  "BootstrapVersion": {
+                    "id": "BootstrapVersion",
+                    "path": "MyTestCase/DefaultTest/DeployAssert/BootstrapVersion",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnParameter",
+                      "version": "2.69.0"
+                    }
+                  },
+                  "CheckBootstrapVersion": {
+                    "id": "CheckBootstrapVersion",
+                    "path": "MyTestCase/DefaultTest/DeployAssert/CheckBootstrapVersion",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnRule",
+                      "version": "2.69.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Stack",
+                  "version": "2.69.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/integ-tests-alpha.IntegTestCase",
+              "version": "2.69.0-alpha.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "@aws-cdk/integ-tests-alpha.IntegTest",
+          "version": "2.69.0-alpha.0"
+        }
+      },
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "constructs.Construct",
+          "version": "10.0.5"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "aws-cdk-lib.App",
+      "version": "2.69.0"
+    }
+  }
+}

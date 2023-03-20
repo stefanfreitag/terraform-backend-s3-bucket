@@ -1,2 +1,2 @@
-export * from './TerraformStateBackend';
-export * from './TerraformStateBackendProperties';
+export * from './terraformStateBackend';
+export * from './terraformStateBackendProperties';

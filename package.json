@@ -17,6 +17,7 @@
     "package": "npx projen package",
     "package-all": "npx projen package-all",
     "package:js": "npx projen package:js",
+    "package:python": "npx projen package:python",
     "post-compile": "npx projen post-compile",
     "post-upgrade": "npx projen post-upgrade",
     "pre-compile": "npx projen pre-compile",
@@ -34,6 +35,8 @@
     "organization": false
   },
   "devDependencies": {
+    "@aws-cdk/integ-runner": "2.69.0",
+    "@aws-cdk/integ-tests-alpha": "2.69.0-alpha.0",
     "@types/jest": "^27",
     "@types/node": "^14",
     "@typescript-eslint/eslint-plugin": "^5",
@@ -54,6 +57,7 @@
     "projen": "^0.68.14",
     "standard-version": "^9",
     "ts-jest": "^27",
+    "ts-node": "^10.9.1",
     "typescript": "^5.0.2"
   },
   "peerDependencies": {
@@ -110,7 +114,12 @@
   "stability": "experimental",
   "jsii": {
     "outdir": "dist",
-    "targets": {},
+    "targets": {
+      "python": {
+        "distName": "terraform-backend-s3-bucket",
+        "module": "terraform_backend_s3_bucket"
+      }
+    },
     "tsc": {
       "outDir": "lib",
       "rootDir": "src"
