@@ -30,7 +30,7 @@
   },
   "author": {
     "name": "Stefan Freitag",
-    "email": "stefan.freitag@rwe.com",
+    "email": "stefan.freitag@udo.edu",
     "organization": false
   },
   "devDependencies": {
@@ -38,7 +38,7 @@
     "@types/node": "^14",
     "@typescript-eslint/eslint-plugin": "^5",
     "@typescript-eslint/parser": "^5",
-    "aws-cdk-lib": "2.1.0",
+    "aws-cdk-lib": "2.69.0",
     "constructs": "10.0.5",
     "eslint": "^8",
     "eslint-import-resolver-node": "^0.3.7",
@@ -57,7 +57,7 @@
     "typescript": "^5.0.2"
   },
   "peerDependencies": {
-    "aws-cdk-lib": "^2.1.0",
+    "aws-cdk-lib": "^2.69.0",
     "constructs": "^10.0.5"
   },
   "keywords": [
@@ -107,7 +107,7 @@
     }
   },
   "types": "lib/index.d.ts",
-  "stability": "stable",
+  "stability": "experimental",
   "jsii": {
     "outdir": "dist",
     "targets": {},
