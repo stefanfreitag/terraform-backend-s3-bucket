@@ -16,6 +16,8 @@
     "eslint": "npx projen eslint",
     "package": "npx projen package",
     "package-all": "npx projen package-all",
+    "package:dotnet": "npx projen package:dotnet",
+    "package:java": "npx projen package:java",
     "package:js": "npx projen package:js",
     "package:python": "npx projen package:python",
     "post-compile": "npx projen post-compile",
@@ -35,13 +37,13 @@
     "organization": false
   },
   "devDependencies": {
-    "@aws-cdk/integ-runner": "2.69.0",
-    "@aws-cdk/integ-tests-alpha": "2.69.0-alpha.0",
+    "@aws-cdk/integ-runner": "2.70.0",
+    "@aws-cdk/integ-tests-alpha": "2.70.0-alpha.0",
     "@types/jest": "^27",
     "@types/node": "^14",
     "@typescript-eslint/eslint-plugin": "^5",
     "@typescript-eslint/parser": "^5",
-    "aws-cdk-lib": "2.69.0",
+    "aws-cdk-lib": "2.70.0",
     "constructs": "10.0.5",
     "eslint": "^8",
     "eslint-import-resolver-node": "^0.3.7",
@@ -61,7 +63,7 @@
     "typescript": "^5.0.2"
   },
   "peerDependencies": {
-    "aws-cdk-lib": "^2.69.0",
+    "aws-cdk-lib": "^2.70.0",
     "constructs": "^10.0.5"
   },
   "keywords": [
@@ -115,9 +117,20 @@
   "jsii": {
     "outdir": "dist",
     "targets": {
+      "java": {
+        "package": "io.github.stefanfreitag.cdk.terraformstatebackend",
+        "maven": {
+          "groupId": "io.github.stefanfreitag",
+          "artifactId": "terraformStateBackend"
+        }
+      },
       "python": {
         "distName": "terraform-backend-s3-bucket",
         "module": "terraform_backend_s3_bucket"
+      },
+      "dotnet": {
+        "namespace": "Io.Github.StefanFreitag",
+        "packageId": "Io.Github.StefanFreitag.TerraformStateBackend"
       }
     },
     "tsc": {
