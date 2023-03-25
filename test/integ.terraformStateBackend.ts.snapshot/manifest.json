@@ -17,7 +17,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/fa181d2b6cd20f4dadf16873d317cbd013cd0f5638d8804ae43cb95edb02ac11.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/c702dafbd55b31c6b314aba2314a9ee65cddd0b47019d4e2a2da3e50371d25d5.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -59,18 +59,6 @@
             "data": "backendtable22833B12"
           }
         ],
-        "/terraform-state-backend/Exports/Output{\"Ref\":\"backendbucket05CC4638\"}": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ExportsOutputRefbackendbucket05CC46384C0A2F66"
-          }
-        ],
-        "/terraform-state-backend/Exports/Output{\"Fn::GetAtt\":[\"backendbucket05CC4638\",\"Arn\"]}": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ExportsOutputFnGetAttbackendbucket05CC4638Arn65776331"
-          }
-        ],
         "/terraform-state-backend/BootstrapVersion": [
           {
             "type": "aws:cdk:logicalId",
@@ -102,7 +90,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/fe7d4340a350579320e53276f850d3de21da6d5061b8aebc7ee8e7b3db94e8d0.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/21fbb51d7b23f6a6c262b46a9caee79d744a3ac019fd45422d988b96d44b2a22.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -115,46 +103,9 @@
         }
       },
       "dependencies": [
-        "terraform-state-backend",
         "MyTestCaseDefaultTestDeployAssertD814CC8D.assets"
       ],
       "metadata": {
-        "/MyTestCase/DefaultTest/DeployAssert/AwsApiCallS3getBucketVersioning/Default/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AwsApiCallS3getBucketVersioning"
-          }
-        ],
-        "/MyTestCase/DefaultTest/DeployAssert/AwsApiCallS3getBucketVersioning/AssertionResults": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AssertionResultsAwsApiCallS3getBucketVersioning"
-          }
-        ],
-        "/MyTestCase/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Role": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "SingletonFunction1488541a7b23466481b69b4408076b81Role37ABCE73"
-          }
-        ],
-        "/MyTestCase/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Handler": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "SingletonFunction1488541a7b23466481b69b4408076b81HandlerCD40AE9F"
-          }
-        ],
-        "/MyTestCase/DefaultTest/DeployAssert/AwsApiCallS3getBucketEncryption/Default/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AwsApiCallS3getBucketEncryption"
-          }
-        ],
-        "/MyTestCase/DefaultTest/DeployAssert/AwsApiCallS3getBucketEncryption/AssertionResults": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AssertionResultsAwsApiCallS3getBucketEncryption"
-          }
-        ],
         "/MyTestCase/DefaultTest/DeployAssert/BootstrapVersion": [
           {
             "type": "aws:cdk:logicalId",

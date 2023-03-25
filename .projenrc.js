@@ -5,15 +5,15 @@ const { UpgradeDependenciesSchedule } = require('projen/lib/javascript');
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Stefan Freitag',
   authorAddress: 'stefan.freitag@udo.edu',
-  cdkVersion: '2.69.0',
+  cdkVersion: '2.70.0',
   defaultReleaseBranch: 'main',
   name: 'terraform-backend-s3-bucket',
   repositoryUrl:
     'https://github.com/stefanfreitag/terraform-backend-s3-bucket.git',
   codeCov: true,
   devDeps: [
-    '@aws-cdk/integ-tests-alpha@2.69.0-alpha.0',
-    '@aws-cdk/integ-runner@2.69.0',
+    '@aws-cdk/integ-tests-alpha@2.70.0-alpha.0',
+    '@aws-cdk/integ-runner@2.70.0',
     'ts-node',
   ],
   depsUpgradeOptions: {

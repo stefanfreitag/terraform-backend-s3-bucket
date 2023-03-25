@@ -3,28 +3,7 @@
   "backendbucket05CC4638": {
    "Type": "AWS::S3::Bucket",
    "Properties": {
-    "BucketName": "sf-terraform-state-bucket-hz5rr",
-    "LifecycleConfiguration": {
-     "Rules": [
-      {
-       "NoncurrentVersionTransitions": [
-        {
-         "StorageClass": "STANDARD_IA",
-         "TransitionInDays": 30
-        },
-        {
-         "StorageClass": "GLACIER",
-         "TransitionInDays": 90
-        },
-        {
-         "StorageClass": "DEEP_ARCHIVE",
-         "TransitionInDays": 180
-        }
-       ],
-       "Status": "Enabled"
-      }
-     ]
-    },
+    "BucketName": "sf-terraform-state-bucket-61lac",
     "PublicAccessBlockConfiguration": {
      "BlockPublicAcls": true,
      "BlockPublicPolicy": true,
@@ -35,8 +14,8 @@
      "Status": "Enabled"
     }
    },
-   "UpdateReplacePolicy": "Delete",
-   "DeletionPolicy": "Delete"
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain"
   },
   "backendbucketPolicyA2684283": {
    "Type": "AWS::S3::BucketPolicy",
@@ -101,31 +80,10 @@
      }
     ],
     "BillingMode": "PAY_PER_REQUEST",
-    "TableName": "sf-terraform-state-lock-table-hz5rr"
+    "TableName": "sf-terraform-state-lock-table-61lac"
    },
-   "UpdateReplacePolicy": "Delete",
-   "DeletionPolicy": "Delete"
-  }
- },
- "Outputs": {
-  "ExportsOutputRefbackendbucket05CC46384C0A2F66": {
-   "Value": {
-    "Ref": "backendbucket05CC4638"
-   },
-   "Export": {
-    "Name": "terraform-state-backend:ExportsOutputRefbackendbucket05CC46384C0A2F66"
-   }
-  },
-  "ExportsOutputFnGetAttbackendbucket05CC4638Arn65776331": {
-   "Value": {
-    "Fn::GetAtt": [
-     "backendbucket05CC4638",
-     "Arn"
-    ]
-   },
-   "Export": {
-    "Name": "terraform-state-backend:ExportsOutputFnGetAttbackendbucket05CC4638Arn65776331"
-   }
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain"
   }
  },
  "Parameters": {
