@@ -1,7 +1,20 @@
 {
   "version": "31.0.0",
   "files": {
-    "21fbb51d7b23f6a6c262b46a9caee79d744a3ac019fd45422d988b96d44b2a22": {
+    "7fdf61ef90906e84e517c4ac31cc2d8efbf4e5e4f2a110e4dc3fc4a6d4a30ee5": {
+      "source": {
+        "path": "asset.7fdf61ef90906e84e517c4ac31cc2d8efbf4e5e4f2a110e4dc3fc4a6d4a30ee5.bundle",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "7fdf61ef90906e84e517c4ac31cc2d8efbf4e5e4f2a110e4dc3fc4a6d4a30ee5.zip",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    },
+    "fe7d4340a350579320e53276f850d3de21da6d5061b8aebc7ee8e7b3db94e8d0": {
       "source": {
         "path": "MyTestCaseDefaultTestDeployAssertD814CC8D.template.json",
         "packaging": "file"
@@ -9,7 +22,7 @@
       "destinations": {
         "current_account-current_region": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "21fbb51d7b23f6a6c262b46a9caee79d744a3ac019fd45422d988b96d44b2a22.json",
+          "objectKey": "fe7d4340a350579320e53276f850d3de21da6d5061b8aebc7ee8e7b3db94e8d0.json",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }

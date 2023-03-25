@@ -22,6 +22,15 @@ const project = new awscdk.AwsCdkConstructLibrary({
     },
   },
   stability: Stability.EXPERIMENTAL,
+  publishToMaven: {
+    javaPackage: 'io.github.stefanfreitag.cdk.terraformstatebackend',
+    mavenArtifactId: 'terraformStateBackend',
+    mavenGroupId: 'io.github.stefanfreitag',
+  },
+  publishToNuget: {
+    dotNetNamespace: 'Io.Github.StefanFreitag',
+    packageId: 'Io.Github.StefanFreitag.TerraformStateBackend',
+  },
   publishToPypi: {
     module: 'terraform_backend_s3_bucket',
     distName: 'terraform-backend-s3-bucket',

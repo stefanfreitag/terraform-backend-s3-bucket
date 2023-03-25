@@ -1,9 +1,9 @@
 import * as cdk from 'aws-cdk-lib';
 import { assertions } from 'aws-cdk-lib';
+import { Match } from 'aws-cdk-lib/assertions';
 import { TerraformStateBackend } from '../src';
 
-describe('Bucket Configuration', () =>{
-
+describe('Bucket Configuration', () => {
   let stack: cdk.Stack;
 
   beforeEach(() => {
@@ -17,26 +17,46 @@ describe('Bucket Configuration', () =>{
   });
 
   test('Versioning is enabled', () => {
-    assertions.Template.fromStack(stack).hasResourceProperties('AWS::S3::Bucket', {
-      VersioningConfiguration: { Status: 'Enabled' },
-    });
+    assertions.Template.fromStack(stack).hasResourceProperties(
+      'AWS::S3::Bucket',
+      {
+        VersioningConfiguration: { Status: 'Enabled' },
+      },
+    );
   });
 
   test('Public access is blocked', () => {
-    assertions.Template.fromStack(stack).hasResourceProperties('AWS::S3::Bucket', {
-      PublicAccessBlockConfiguration: {
-        BlockPublicAcls: true,
-        BlockPublicPolicy: true,
-        IgnorePublicAcls: true,
-        RestrictPublicBuckets: true,
+    assertions.Template.fromStack(stack).hasResourceProperties(
+      'AWS::S3::Bucket',
+      {
+        PublicAccessBlockConfiguration: {
+          BlockPublicAcls: true,
+          BlockPublicPolicy: true,
+          IgnorePublicAcls: true,
+          RestrictPublicBuckets: true,
+        },
       },
-    });
+    );
   });
 
+  test('Lifecycle policy is defined', () => {
+    assertions.Template.fromStack(stack).hasResourceProperties(
+      'AWS::S3::Bucket',
+      {
+        LifecycleConfiguration: {
+          Rules: [
+            {
+              Status: 'Enabled',
+              NoncurrentVersionTransitions: Match.anyValue(),
+            },
+          ],
+        },
+      },
+    );
+  });
 });
 
-describe('DynamoDB Configuration', () =>{
-
+describe('DynamoDB Configuration', () => {
   let stack: cdk.Stack;
 
   beforeEach(() => {
@@ -50,11 +70,11 @@ describe('DynamoDB Configuration', () =>{
   });
 
   test('Billing mode is pay per request', () => {
-    assertions.Template.fromStack(stack).hasResourceProperties('AWS::DynamoDB::Table', {
-      BillingMode: 'PAY_PER_REQUEST',
-    });
-
-
+    assertions.Template.fromStack(stack).hasResourceProperties(
+      'AWS::DynamoDB::Table',
+      {
+        BillingMode: 'PAY_PER_REQUEST',
+      },
+    );
   });
-
 });

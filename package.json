@@ -16,6 +16,8 @@
     "eslint": "npx projen eslint",
     "package": "npx projen package",
     "package-all": "npx projen package-all",
+    "package:dotnet": "npx projen package:dotnet",
+    "package:java": "npx projen package:java",
     "package:js": "npx projen package:js",
     "package:python": "npx projen package:python",
     "post-compile": "npx projen post-compile",
@@ -115,9 +117,20 @@
   "jsii": {
     "outdir": "dist",
     "targets": {
+      "java": {
+        "package": "io.github.stefanfreitag.cdk.terraformstatebackend",
+        "maven": {
+          "groupId": "io.github.stefanfreitag",
+          "artifactId": "terraformStateBackend"
+        }
+      },
       "python": {
         "distName": "terraform-backend-s3-bucket",
         "module": "terraform_backend_s3_bucket"
+      },
+      "dotnet": {
+        "namespace": "Io.Github.StefanFreitag",
+        "packageId": "Io.Github.StefanFreitag.TerraformStateBackend"
       }
     },
     "tsc": {

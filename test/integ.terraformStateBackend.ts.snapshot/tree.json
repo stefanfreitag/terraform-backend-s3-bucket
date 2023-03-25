@@ -22,7 +22,28 @@
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
                       "aws:cdk:cloudformation:props": {
-                        "bucketName": "sf-terraform-state-bucket-61lac",
+                        "bucketName": "sf-terraform-state-bucket-hz5rr",
+                        "lifecycleConfiguration": {
+                          "rules": [
+                            {
+                              "noncurrentVersionTransitions": [
+                                {
+                                  "storageClass": "STANDARD_IA",
+                                  "transitionInDays": 30
+                                },
+                                {
+                                  "storageClass": "GLACIER",
+                                  "transitionInDays": 90
+                                },
+                                {
+                                  "storageClass": "DEEP_ARCHIVE",
+                                  "transitionInDays": 180
+                                }
+                              ],
+                              "status": "Enabled"
+                            }
+                          ]
+                        },
                         "publicAccessBlockConfiguration": {
                           "blockPublicAcls": true,
                           "blockPublicPolicy": true,
@@ -133,7 +154,7 @@
                           }
                         ],
                         "billingMode": "PAY_PER_REQUEST",
-                        "tableName": "sf-terraform-state-lock-table-61lac"
+                        "tableName": "sf-terraform-state-lock-table-hz5rr"
                       }
                     },
                     "constructInfo": {
@@ -152,6 +173,32 @@
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_dynamodb.Table",
+                  "version": "2.69.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.0.5"
+            }
+          },
+          "Exports": {
+            "id": "Exports",
+            "path": "terraform-state-backend/Exports",
+            "children": {
+              "Output{\"Ref\":\"backendbucket05CC4638\"}": {
+                "id": "Output{\"Ref\":\"backendbucket05CC4638\"}",
+                "path": "terraform-state-backend/Exports/Output{\"Ref\":\"backendbucket05CC4638\"}",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.69.0"
+                }
+              },
+              "Output{\"Fn::GetAtt\":[\"backendbucket05CC4638\",\"Arn\"]}": {
+                "id": "Output{\"Fn::GetAtt\":[\"backendbucket05CC4638\",\"Arn\"]}",
+                "path": "terraform-state-backend/Exports/Output{\"Fn::GetAtt\":[\"backendbucket05CC4638\",\"Arn\"]}",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
                   "version": "2.69.0"
                 }
               }
@@ -203,6 +250,148 @@
                 "id": "DeployAssert",
                 "path": "MyTestCase/DefaultTest/DeployAssert",
                 "children": {
+                  "AwsApiCallS3getBucketVersioning": {
+                    "id": "AwsApiCallS3getBucketVersioning",
+                    "path": "MyTestCase/DefaultTest/DeployAssert/AwsApiCallS3getBucketVersioning",
+                    "children": {
+                      "SdkProvider": {
+                        "id": "SdkProvider",
+                        "path": "MyTestCase/DefaultTest/DeployAssert/AwsApiCallS3getBucketVersioning/SdkProvider",
+                        "children": {
+                          "AssertionsProvider": {
+                            "id": "AssertionsProvider",
+                            "path": "MyTestCase/DefaultTest/DeployAssert/AwsApiCallS3getBucketVersioning/SdkProvider/AssertionsProvider",
+                            "constructInfo": {
+                              "fqn": "constructs.Construct",
+                              "version": "10.0.5"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "@aws-cdk/integ-tests-alpha.AssertionsProvider",
+                          "version": "2.69.0-alpha.0"
+                        }
+                      },
+                      "Default": {
+                        "id": "Default",
+                        "path": "MyTestCase/DefaultTest/DeployAssert/AwsApiCallS3getBucketVersioning/Default",
+                        "children": {
+                          "Default": {
+                            "id": "Default",
+                            "path": "MyTestCase/DefaultTest/DeployAssert/AwsApiCallS3getBucketVersioning/Default/Default",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.CfnResource",
+                              "version": "2.69.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CustomResource",
+                          "version": "2.69.0"
+                        }
+                      },
+                      "AssertionResults": {
+                        "id": "AssertionResults",
+                        "path": "MyTestCase/DefaultTest/DeployAssert/AwsApiCallS3getBucketVersioning/AssertionResults",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnOutput",
+                          "version": "2.69.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/integ-tests-alpha.AwsApiCall",
+                      "version": "2.69.0-alpha.0"
+                    }
+                  },
+                  "SingletonFunction1488541a7b23466481b69b4408076b81": {
+                    "id": "SingletonFunction1488541a7b23466481b69b4408076b81",
+                    "path": "MyTestCase/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81",
+                    "children": {
+                      "Staging": {
+                        "id": "Staging",
+                        "path": "MyTestCase/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Staging",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.69.0"
+                        }
+                      },
+                      "Role": {
+                        "id": "Role",
+                        "path": "MyTestCase/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Role",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnResource",
+                          "version": "2.69.0"
+                        }
+                      },
+                      "Handler": {
+                        "id": "Handler",
+                        "path": "MyTestCase/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Handler",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnResource",
+                          "version": "2.69.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "constructs.Construct",
+                      "version": "10.0.5"
+                    }
+                  },
+                  "AwsApiCallS3getBucketEncryption": {
+                    "id": "AwsApiCallS3getBucketEncryption",
+                    "path": "MyTestCase/DefaultTest/DeployAssert/AwsApiCallS3getBucketEncryption",
+                    "children": {
+                      "SdkProvider": {
+                        "id": "SdkProvider",
+                        "path": "MyTestCase/DefaultTest/DeployAssert/AwsApiCallS3getBucketEncryption/SdkProvider",
+                        "children": {
+                          "AssertionsProvider": {
+                            "id": "AssertionsProvider",
+                            "path": "MyTestCase/DefaultTest/DeployAssert/AwsApiCallS3getBucketEncryption/SdkProvider/AssertionsProvider",
+                            "constructInfo": {
+                              "fqn": "constructs.Construct",
+                              "version": "10.0.5"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "@aws-cdk/integ-tests-alpha.AssertionsProvider",
+                          "version": "2.69.0-alpha.0"
+                        }
+                      },
+                      "Default": {
+                        "id": "Default",
+                        "path": "MyTestCase/DefaultTest/DeployAssert/AwsApiCallS3getBucketEncryption/Default",
+                        "children": {
+                          "Default": {
+                            "id": "Default",
+                            "path": "MyTestCase/DefaultTest/DeployAssert/AwsApiCallS3getBucketEncryption/Default/Default",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.CfnResource",
+                              "version": "2.69.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CustomResource",
+                          "version": "2.69.0"
+                        }
+                      },
+                      "AssertionResults": {
+                        "id": "AssertionResults",
+                        "path": "MyTestCase/DefaultTest/DeployAssert/AwsApiCallS3getBucketEncryption/AssertionResults",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnOutput",
+                          "version": "2.69.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/integ-tests-alpha.AwsApiCall",
+                      "version": "2.69.0-alpha.0"
+                    }
+                  },
                   "BootstrapVersion": {
                     "id": "BootstrapVersion",
                     "path": "MyTestCase/DefaultTest/DeployAssert/BootstrapVersion",

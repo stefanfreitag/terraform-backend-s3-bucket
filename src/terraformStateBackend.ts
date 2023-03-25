@@ -1,4 +1,4 @@
-import { aws_dynamodb as dynamodb, aws_s3 as s3 } from 'aws-cdk-lib';
+import { aws_dynamodb as dynamodb, aws_s3 as s3, Duration, RemovalPolicy } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 //import * as aws_iam from 'aws-cdk-lib/aws-iam'
 import { TerraformStateBackendProperties } from './terraformStateBackendProperties';
@@ -20,6 +20,27 @@ export class TerraformStateBackend extends Construct {
       versioned: true,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       enforceSSL: true,
+      removalPolicy: RemovalPolicy.DESTROY,
+      lifecycleRules: [
+        {
+          enabled: true,
+          noncurrentVersionsToRetain: 1000,
+          noncurrentVersionTransitions: [
+            {
+              storageClass: s3.StorageClass.INFREQUENT_ACCESS,
+              transitionAfter: Duration.days(30),
+            },
+            {
+              storageClass: s3.StorageClass.GLACIER,
+              transitionAfter: Duration.days(90),
+            },
+            {
+              storageClass: s3.StorageClass.DEEP_ARCHIVE,
+              transitionAfter: Duration.days(180),
+            },
+          ],
+        },
+      ],
     });
 
     this.table = new dynamodb.Table(this, 'table', {
@@ -29,7 +50,7 @@ export class TerraformStateBackend extends Construct {
         type: dynamodb.AttributeType.STRING,
       },
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
-
+      removalPolicy: RemovalPolicy.DESTROY
     });
   }
 }
