@@ -157,3 +157,27 @@ describe('DynamoDB Configuration', () => {
     );
   });
 });
+
+
+describe('KMS Key Configuration', () => {
+  let stack: cdk.Stack;
+
+  beforeEach(() => {
+    const app = new cdk.App();
+
+    stack = new cdk.Stack(app, 'stack', {});
+    new TerraformStateBackend(stack, 'backend', {
+      bucketName: '',
+      tableName: '',
+    });
+  });
+
+  test('Key settings', () => {
+    assertions.Template.fromStack(stack).hasResourceProperties(
+      'AWS::KMS::Key',
+      {
+        Enabled: 'true',
+      },
+    );
+  });
+});

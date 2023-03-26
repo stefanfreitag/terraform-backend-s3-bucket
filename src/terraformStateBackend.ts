@@ -1,4 +1,10 @@
-import { aws_dynamodb as dynamodb, aws_s3 as s3, Duration, RemovalPolicy } from 'aws-cdk-lib';
+import {
+  aws_dynamodb as dynamodb,
+  aws_kms as kms,
+  aws_s3 as s3,
+  Duration,
+  RemovalPolicy,
+} from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 //import * as aws_iam from 'aws-cdk-lib/aws-iam'
 import { TerraformStateBackendProperties } from './terraformStateBackendProperties';
@@ -52,6 +58,14 @@ export class TerraformStateBackend extends Construct {
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       pointInTimeRecovery: true,
       removalPolicy: RemovalPolicy.DESTROY,
+    });
+
+    new kms.Key(this, 'key', {
+      //ToDo: Check for uniqueness requirement
+      alias: 'terraform-state',
+      pendingWindow: Duration.days(30),
+      enableKeyRotation: true,
+      enabled: true,
     });
   }
 }
