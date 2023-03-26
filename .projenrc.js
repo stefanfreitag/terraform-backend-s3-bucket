@@ -14,6 +14,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   devDeps: [
     '@aws-cdk/integ-tests-alpha@2.70.0-alpha.0',
     '@aws-cdk/integ-runner@2.70.0',
+    'cdk-nag@2.23.5',
     'ts-node',
   ],
   depsUpgradeOptions: {
