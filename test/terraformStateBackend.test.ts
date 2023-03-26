@@ -1,7 +1,86 @@
 import * as cdk from 'aws-cdk-lib';
-import { assertions } from 'aws-cdk-lib';
-import { Match } from 'aws-cdk-lib/assertions';
+import { Aspects, assertions } from 'aws-cdk-lib';
+import { Annotations, Match } from 'aws-cdk-lib/assertions';
+import { AwsSolutionsChecks, HIPAASecurityChecks, NagSuppressions } from 'cdk-nag';
 import { TerraformStateBackend } from '../src';
+
+describe('Ensure passing AWSSolutionChecks', () => {
+  let stack: cdk.Stack;
+  let app: cdk.App;
+  beforeEach(() => {
+    app = new cdk.App();
+    stack = new cdk.Stack(app, 'stack', {});
+    NagSuppressions.addStackSuppressions(stack, [
+      { id: 'AwsSolutions-S1', reason: 'Access Logs for Terraform Bucket not implemented.' },
+    ]);
+
+    Aspects.of(app).add(new AwsSolutionsChecks({
+      verbose: true,
+    }));
+
+    new TerraformStateBackend(stack, 'backend', {
+      bucketName: 'tf-state-bucket',
+      tableName: 'tf-state-lock',
+    });
+  });
+
+  test('No unsuppressed Warnings', () => {
+    const warnings = Annotations.fromStack(stack).findWarning(
+      '*',
+      Match.stringLikeRegexp('AwsSolutions-.*'),
+    );
+    expect(warnings).toHaveLength(0);
+  });
+
+  test('No unsuppressed Errors', () => {
+    const errors = Annotations.fromStack(stack).findError(
+      '*',
+      Match.stringLikeRegexp('AwsSolutions-.*'),
+    );
+    expect(errors).toHaveLength(0);
+  });
+});
+
+describe('Ensure passing HIPAASecurityChecks', () => {
+  let stack: cdk.Stack;
+  let app: cdk.App;
+  beforeEach(() => {
+    app = new cdk.App();
+    stack = new cdk.Stack(app, 'stack', {});
+    NagSuppressions.addStackSuppressions(stack, [
+      { id: 'HIPAA.Security-S3BucketLoggingEnabled', reason: 'Access Logs for Terraform Bucket not implemented.' },
+      { id: 'HIPAA.Security-S3BucketReplicationEnabled', reason: 'Cross-region replication for Terraform Bucket not implemented.' },
+      { id: 'HIPAA.Security-DynamoDBInBackupPlan', reason: 'Backup plan for DynamoDB table not implemented.' },
+      { id: 'HIPAA.Security-S3DefaultEncryptionKMS', reason: 'KMS usage currently not implemented.' },
+    ]);
+
+    Aspects.of(app).add(new HIPAASecurityChecks({
+      reports: true,
+      verbose: true,
+    }));
+
+    new TerraformStateBackend(stack, 'backend', {
+      bucketName: 'tf-state-bucket',
+      tableName: 'tf-state-lock',
+    });
+  });
+
+  test('No unsuppressed Warnings', () => {
+    const warnings = Annotations.fromStack(stack).findWarning(
+      '*',
+      Match.stringLikeRegexp('HIPAA.*'),
+    );
+    expect(warnings).toHaveLength(0);
+  });
+
+  test('No unsuppressed Errors', () => {
+    const errors = Annotations.fromStack(stack).findError(
+      '*',
+      Match.stringLikeRegexp('HIPAA.*'),
+    );
+    expect(errors).toHaveLength(0);
+  });
+});
 
 describe('Bucket Configuration', () => {
   let stack: cdk.Stack;

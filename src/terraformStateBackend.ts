@@ -50,6 +50,7 @@ export class TerraformStateBackend extends Construct {
         type: dynamodb.AttributeType.STRING,
       },
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+      pointInTimeRecovery: true,
       removalPolicy: RemovalPolicy.DESTROY,
     });
   }
