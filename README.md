@@ -17,7 +17,9 @@ of
 - A lifecycle policy for non-current versions of objects  
   [[S3.10] S3 buckets with versioning enabled should have lifecycle policies configured
 ](https://docs.aws.amazon.com/securityhub/latest/userguide/s3-controls.html#s3-10)
+- Enforcing that the bucket owner owns every object in the bucket.
 
 ## Links
 
 - [Amazon Simple Storage Service controls](https://docs.aws.amazon.com/securityhub/latest/userguide/s3-controls.html)
+- [Controlling ownership of objects and disabling ACLs for your bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html)

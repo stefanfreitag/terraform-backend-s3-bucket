@@ -1,12 +1,10 @@
 import { aws_dynamodb as dynamodb, aws_s3 as s3, Duration, RemovalPolicy } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-//import * as aws_iam from 'aws-cdk-lib/aws-iam'
 import { TerraformStateBackendProperties } from './terraformStateBackendProperties';
 
 export class TerraformStateBackend extends Construct {
   readonly bucket: s3.IBucket;
   readonly table: dynamodb.ITable;
-  // readonly policy: aws_iam.IPolicy;
 
   public constructor(
     scope: Construct,
@@ -20,6 +18,7 @@ export class TerraformStateBackend extends Construct {
       versioned: true,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       enforceSSL: true,
+      objectOwnership: s3.ObjectOwnership.BUCKET_OWNER_ENFORCED,
       removalPolicy: RemovalPolicy.DESTROY,
       lifecycleRules: [
         {
