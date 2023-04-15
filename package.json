@@ -1,5 +1,6 @@
 {
   "name": "terraform-backend-s3-bucket",
+  "description": "Creates an S3 bucket and a DynamoDB table for Terraform state and lock management.",
   "repository": {
     "type": "git",
     "url": "https://github.com/stefanfreitag/terraform-backend-s3-bucket.git"
