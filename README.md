@@ -1,10 +1,8 @@
 # Terraform Backend S3 Bucket
 
-Provides a CDK construct for Terraform state management. The construct consists
-of
+Provides a CDK construct for Terraform state management.
 
-- S3 bucket
-- DynamoDB table.
+The documentation is available [here](https://stefanfreitag.github.io/terraform-backend-s3-bucket/).
 
 ## Contributing
 

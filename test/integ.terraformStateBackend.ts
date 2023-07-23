@@ -22,8 +22,9 @@ class StackUnderTest extends cdk.Stack {
 // Beginning of the test suite
 const app = new cdk.App();
 
-const stack = new StackUnderTest(app, 'terraform-state-backend', {});
+const stack = new StackUnderTest(app, 'terraform-state-backend', { description: 'Integration test for Terraform State Backend' });
 const integ = new IntegTest(app, 'MyTestCase', {
+
   regions: ['eu-central-1'],
   testCases: [stack],
 });

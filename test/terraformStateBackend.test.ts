@@ -85,26 +85,18 @@ describe('Ensure passing HIPAASecurityChecks', () => {
 describe('Bucket Configuration', () => {
   let stack: cdk.Stack;
 
+  let backend: TerraformStateBackend;
   beforeEach(() => {
     const app = new cdk.App();
 
     stack = new cdk.Stack(app, 'stack', {});
-    new TerraformStateBackend(stack, 'backend', {
+    backend = new TerraformStateBackend(stack, 'backend', {
       bucketName: '',
       tableName: '',
     });
   });
 
-  test('Versioning is enabled', () => {
-    assertions.Template.fromStack(stack).hasResourceProperties(
-      'AWS::S3::Bucket',
-      {
-        VersioningConfiguration: { Status: 'Enabled' },
-      },
-    );
-  });
-
-  test('Public access is blocked', () => {
+  test('[S3.2] S3 buckets should prohibit public read access', () => {
     assertions.Template.fromStack(stack).hasResourceProperties(
       'AWS::S3::Bucket',
       {
@@ -114,6 +106,80 @@ describe('Bucket Configuration', () => {
           IgnorePublicAcls: true,
           RestrictPublicBuckets: true,
         },
+      },
+    );
+  });
+
+  //TODO
+  test('[S3.4] S3 buckets should have server-side encryption enabled', () => {
+    assertions.Template.fromStack(stack).hasResourceProperties(
+      'AWS::S3::Bucket',
+      {
+        BucketEncryption: {
+          ServerSideEncryptionConfiguration: [
+            { ServerSideEncryptionByDefault: { SSEAlgorithm: 'aws:kms' } },
+          ],
+        },
+      },
+    );
+  });
+
+  test('[S3.5] S3 buckets should require requests to use Secure Socket Layer', () => {
+    const template = assertions.Template.fromStack(stack);
+    template.resourceCountIs('AWS::S3::BucketPolicy', 1);
+
+    const logicalId = stack.getLogicalId(backend.bucket.node.defaultChild as cdk.CfnResource);
+
+    template.hasResourceProperties(
+      'AWS::S3::BucketPolicy',
+      {
+        PolicyDocument: {
+          Statement: [
+            {
+              Action: 's3:*',
+              Condition: {
+                Bool: {
+                  'aws:SecureTransport': 'false',
+                },
+              },
+              Effect: 'Deny',
+              Principal: {
+                AWS: '*',
+              },
+              Resource: [
+                {
+                  'Fn::GetAtt': [
+                    logicalId,
+                    'Arn',
+                  ],
+                },
+                {
+                  'Fn::Join': [
+                    '',
+                    [
+                      {
+                        'Fn::GetAtt': [
+                          logicalId,
+                          'Arn',
+                        ],
+                      },
+                      '/*',
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      },
+    );
+  });
+
+  test('[S3.14] S3 buckets should use versioning', () => {
+    assertions.Template.fromStack(stack).hasResourceProperties(
+      'AWS::S3::Bucket',
+      {
+        VersioningConfiguration: { Status: 'Enabled' },
       },
     );
   });
