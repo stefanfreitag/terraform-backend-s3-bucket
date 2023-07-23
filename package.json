@@ -74,7 +74,11 @@
     "@types/prettier": "2.6.0"
   },
   "keywords": [
-    "cdk"
+    "aws",
+    "backend",
+    "cdk",
+    "s3",
+    "terraform"
   ],
   "main": "lib/index.js",
   "license": "Apache-2.0",

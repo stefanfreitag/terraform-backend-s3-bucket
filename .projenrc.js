@@ -23,6 +23,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
       schedule: UpgradeDependenciesSchedule.MONTHLY,
     },
   },
+  keywords: ['aws', 'backend', 's3', 'terraform'],
   stability: Stability.EXPERIMENTAL,
   publishToMaven: {
     javaPackage: 'io.github.stefanfreitag.cdk.terraformstatebackend',
