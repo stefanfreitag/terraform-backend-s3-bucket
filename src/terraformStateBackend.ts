@@ -20,6 +20,7 @@ export class TerraformStateBackend extends Construct {
       enforceSSL: true,
       objectOwnership: s3.ObjectOwnership.BUCKET_OWNER_ENFORCED,
       removalPolicy: RemovalPolicy.DESTROY,
+      encryption: s3.BucketEncryption.KMS_MANAGED,
       lifecycleRules: [
         {
           enabled: true,
