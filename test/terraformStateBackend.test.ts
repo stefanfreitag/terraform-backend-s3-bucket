@@ -222,4 +222,15 @@ describe('DynamoDB Configuration', () => {
       },
     );
   });
+
+  test('[DynamoDB.2] DynamoDB tables should have point-in-time recovery enabled', () => {
+    assertions.Template.fromStack(stack).hasResourceProperties(
+      'AWS::DynamoDB::Table',
+      {
+        PointInTimeRecoverySpecification: {
+          PointInTimeRecoveryEnabled: true,
+        },
+      },
+    );
+  });
 });
