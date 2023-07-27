@@ -1,4 +1,11 @@
-import { aws_dynamodb as dynamodb, aws_s3 as s3, Duration, RemovalPolicy } from 'aws-cdk-lib';
+import {
+  aws_dynamodb as dynamodb,
+  aws_s3 as s3,
+  Duration,
+  RemovalPolicy,
+  CfnOutput,
+} from 'aws-cdk-lib';
+import * as iam from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
 import { TerraformStateBackendProperties } from './terraformStateBackendProperties';
 
@@ -53,5 +60,60 @@ export class TerraformStateBackend extends Construct {
       pointInTimeRecovery: true,
       removalPolicy: RemovalPolicy.DESTROY,
     });
+
+    this.createIamPolicies();
+
+    new CfnOutput(this, 'output-table',
+      {
+        description: 'ARN of the DynamoDB table',
+        exportName: 'tableArn',
+        value: this.table.tableArn,
+      });
+
+    new CfnOutput(this, 'output-bucket',
+      {
+        description: 'ARN of the S3 bucket',
+        exportName: 'bucketArn',
+        value: this.bucket.bucketArn,
+      });
+
+  }
+
+  private createIamPolicies() {
+    // Policy Statement for reading/ writing DyanmoDB table
+    const ddbStatement = new iam.PolicyStatement({
+      sid: 'DynamoDBTable',
+      effect: iam.Effect.ALLOW,
+      actions: [
+        'dynamodb:DescribeTable',
+        'dynamodb:GetItem',
+        'dynamodb:PutItem',
+        'dynamodb:DeleteItem',
+      ],
+      resources: [this.table.tableArn],
+    });
+    // Policy Statement for reading/ writing to the S3 bucket and objects
+    const s3Statement = new iam.PolicyStatement({
+      sid: 'S3Bucket',
+      effect: iam.Effect.ALLOW,
+      actions: [
+        's3:ListBucket',
+        's3:GetObject',
+        's3:PutObject',
+        's3:DeleteObject',
+      ],
+      resources: [this.bucket.bucketArn, this.bucket.bucketArn + '/*'],
+    });
+
+    new iam.PolicyDocument({
+      statements: [ddbStatement, s3Statement],
+    });
+    new iam.ManagedPolicy(this, 'managed-policy', {
+      description: 'Managed policy for Terraform state backend',
+      statements: [ddbStatement, s3Statement],
+      managedPolicyName: 'TerraformStateBackendPolicy',
+    });
+
+
   }
 }

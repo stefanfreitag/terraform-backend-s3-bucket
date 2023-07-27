@@ -1,7 +1,11 @@
 import * as cdk from 'aws-cdk-lib';
 import { Aspects, assertions } from 'aws-cdk-lib';
 import { Annotations, Match } from 'aws-cdk-lib/assertions';
-import { AwsSolutionsChecks, HIPAASecurityChecks, NagSuppressions } from 'cdk-nag';
+import {
+  AwsSolutionsChecks,
+  HIPAASecurityChecks,
+  NagSuppressions,
+} from 'cdk-nag';
 import { TerraformStateBackend } from '../src';
 
 describe('Ensure passing AWSSolutionChecks', () => {
@@ -11,12 +15,22 @@ describe('Ensure passing AWSSolutionChecks', () => {
     app = new cdk.App();
     stack = new cdk.Stack(app, 'stack', {});
     NagSuppressions.addStackSuppressions(stack, [
-      { id: 'AwsSolutions-S1', reason: 'Access Logs for Terraform Bucket not implemented.' },
+      {
+        id: 'AwsSolutions-S1',
+        reason: 'Access Logs for Terraform Bucket not implemented.',
+      },
+      {
+        id: 'AwsSolutions-IAM5',
+        reason:
+          'Wilcard permission in place for accessing objects in an S3 bucket.',
+      },
     ]);
 
-    Aspects.of(app).add(new AwsSolutionsChecks({
-      verbose: true,
-    }));
+    Aspects.of(app).add(
+      new AwsSolutionsChecks({
+        verbose: true,
+      }),
+    );
 
     new TerraformStateBackend(stack, 'backend', {
       bucketName: 'tf-state-bucket',
@@ -48,16 +62,31 @@ describe('Ensure passing HIPAASecurityChecks', () => {
     app = new cdk.App();
     stack = new cdk.Stack(app, 'stack', {});
     NagSuppressions.addStackSuppressions(stack, [
-      { id: 'HIPAA.Security-S3BucketLoggingEnabled', reason: 'Access Logs for Terraform Bucket not implemented.' },
-      { id: 'HIPAA.Security-S3BucketReplicationEnabled', reason: 'Cross-region replication for Terraform Bucket not implemented.' },
-      { id: 'HIPAA.Security-DynamoDBInBackupPlan', reason: 'Backup plan for DynamoDB table not implemented.' },
-      { id: 'HIPAA.Security-S3DefaultEncryptionKMS', reason: 'KMS usage currently not implemented.' },
+      {
+        id: 'HIPAA.Security-S3BucketLoggingEnabled',
+        reason: 'Access Logs for Terraform Bucket not implemented.',
+      },
+      {
+        id: 'HIPAA.Security-S3BucketReplicationEnabled',
+        reason:
+          'Cross-region replication for Terraform Bucket not implemented.',
+      },
+      {
+        id: 'HIPAA.Security-DynamoDBInBackupPlan',
+        reason: 'Backup plan for DynamoDB table not implemented.',
+      },
+      {
+        id: 'HIPAA.Security-S3DefaultEncryptionKMS',
+        reason: 'KMS usage currently not implemented.',
+      },
     ]);
 
-    Aspects.of(app).add(new HIPAASecurityChecks({
-      reports: true,
-      verbose: true,
-    }));
+    Aspects.of(app).add(
+      new HIPAASecurityChecks({
+        reports: true,
+        verbose: true,
+      }),
+    );
 
     new TerraformStateBackend(stack, 'backend', {
       bucketName: 'tf-state-bucket',
@@ -128,51 +157,44 @@ describe('Bucket Configuration', () => {
     const template = assertions.Template.fromStack(stack);
     template.resourceCountIs('AWS::S3::BucketPolicy', 1);
 
-    const logicalId = stack.getLogicalId(backend.bucket.node.defaultChild as cdk.CfnResource);
-
-    template.hasResourceProperties(
-      'AWS::S3::BucketPolicy',
-      {
-        PolicyDocument: {
-          Statement: [
-            {
-              Action: 's3:*',
-              Condition: {
-                Bool: {
-                  'aws:SecureTransport': 'false',
-                },
-              },
-              Effect: 'Deny',
-              Principal: {
-                AWS: '*',
-              },
-              Resource: [
-                {
-                  'Fn::GetAtt': [
-                    logicalId,
-                    'Arn',
-                  ],
-                },
-                {
-                  'Fn::Join': [
-                    '',
-                    [
-                      {
-                        'Fn::GetAtt': [
-                          logicalId,
-                          'Arn',
-                        ],
-                      },
-                      '/*',
-                    ],
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      },
+    const logicalId = stack.getLogicalId(
+      backend.bucket.node.defaultChild as cdk.CfnResource,
     );
+
+    template.hasResourceProperties('AWS::S3::BucketPolicy', {
+      PolicyDocument: {
+        Statement: [
+          {
+            Action: 's3:*',
+            Condition: {
+              Bool: {
+                'aws:SecureTransport': 'false',
+              },
+            },
+            Effect: 'Deny',
+            Principal: {
+              AWS: '*',
+            },
+            Resource: [
+              {
+                'Fn::GetAtt': [logicalId, 'Arn'],
+              },
+              {
+                'Fn::Join': [
+                  '',
+                  [
+                    {
+                      'Fn::GetAtt': [logicalId, 'Arn'],
+                    },
+                    '/*',
+                  ],
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    });
   });
 
   test('[S3.14] S3 buckets should use versioning', () => {
@@ -229,6 +251,80 @@ describe('DynamoDB Configuration', () => {
       {
         PointInTimeRecoverySpecification: {
           PointInTimeRecoveryEnabled: true,
+        },
+      },
+    );
+  });
+});
+
+describe('IAM Configuration', () => {
+  let stack: cdk.Stack;
+  let app: cdk.App;
+  let backend: TerraformStateBackend;
+  beforeEach(() => {
+    app = new cdk.App();
+    stack = new cdk.Stack(app, 'stack', {});
+
+    backend = new TerraformStateBackend(stack, 'backend', {
+      bucketName: 'tf-state-bucket',
+      tableName: 'tf-state-lock',
+    });
+  });
+
+  test('Managed policy for accessing S3 Bucket and DynamoDB', () => {
+
+    const logicalIdTable = stack.getLogicalId(
+      backend.table.node.defaultChild as cdk.CfnResource,
+    );
+
+    const logicalIdBucket = stack.getLogicalId(
+      backend.bucket.node.defaultChild as cdk.CfnResource,
+    );
+    assertions.Template.fromStack(stack).hasResourceProperties(
+      'AWS::IAM::ManagedPolicy',
+      {
+        ManagedPolicyName: 'TerraformStateBackendPolicy',
+        PolicyDocument: {
+          Version: '2012-10-17',
+          Statement: [
+            {
+              Effect: 'Allow',
+              Sid: 'DynamoDBTable',
+              Action: [
+                'dynamodb:DescribeTable',
+                'dynamodb:GetItem',
+                'dynamodb:PutItem',
+                'dynamodb:DeleteItem',
+              ],
+              Resource: { 'Fn::GetAtt': [logicalIdTable, 'Arn'] },
+            },
+            {
+              Sid: 'S3Bucket',
+              Effect: 'Allow',
+              Action: [
+                's3:ListBucket',
+                's3:GetObject',
+                's3:PutObject',
+                's3:DeleteObject',
+              ],
+              Resource: [
+                {
+                  'Fn::GetAtt': [logicalIdBucket, 'Arn'],
+                },
+                {
+                  'Fn::Join': [
+                    '',
+                    [
+                      {
+                        'Fn::GetAtt': [logicalIdBucket, 'Arn'],
+                      },
+                      '/*',
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
         },
       },
     );
