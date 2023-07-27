@@ -52,11 +52,12 @@ export class TerraformStateBackend extends Construct {
 
     this.table = new dynamodb.Table(this, 'table', {
       tableName: props.tableName,
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+      deletionProtection: props.tableDeletionProtection ?? false,
       partitionKey: {
         name: 'LockID',
         type: dynamodb.AttributeType.STRING,
       },
-      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       pointInTimeRecovery: true,
       removalPolicy: RemovalPolicy.DESTROY,
     });

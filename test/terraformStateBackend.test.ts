@@ -233,6 +233,7 @@ describe('DynamoDB Configuration', () => {
     new TerraformStateBackend(stack, 'backend', {
       bucketName: '',
       tableName: '',
+      tableDeletionProtection: true,
     });
   });
 
@@ -245,6 +246,14 @@ describe('DynamoDB Configuration', () => {
     );
   });
 
+  test('Non-default value for deletion protection', () => {
+    assertions.Template.fromStack(stack).hasResourceProperties(
+      'AWS::DynamoDB::Table',
+      {
+        DeletionProtectionEnabled: true,
+      },
+    );
+  });
   test('[DynamoDB.2] DynamoDB tables should have point-in-time recovery enabled', () => {
     assertions.Template.fromStack(stack).hasResourceProperties(
       'AWS::DynamoDB::Table',
