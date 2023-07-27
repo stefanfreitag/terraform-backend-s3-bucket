@@ -14,3 +14,7 @@
 ## DynamoDB Table
 
 - [[DynamoDB.2] DynamoDB tables should have point-in-time recovery enabled](https://docs.aws.amazon.com/securityhub/latest/userguide/dynamodb-controls.html#dynamodb-2)
+
+## IAM
+
+- Managed policy for accessing the S3 bucket and keys as well as the DynamoDB table.
