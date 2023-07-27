@@ -154,8 +154,9 @@ const terraformStateBackendProperties: TerraformStateBackendProperties = { ... }
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#terraform-backend-s3-bucket.TerraformStateBackendProperties.property.bucketName">bucketName</a></code> | <code>string</code> | *No description.* |
-| <code><a href="#terraform-backend-s3-bucket.TerraformStateBackendProperties.property.tableName">tableName</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#terraform-backend-s3-bucket.TerraformStateBackendProperties.property.bucketName">bucketName</a></code> | <code>string</code> | The name of the bucket to create. |
+| <code><a href="#terraform-backend-s3-bucket.TerraformStateBackendProperties.property.tableName">tableName</a></code> | <code>string</code> | The name of the DynamoDB table to create. |
+| <code><a href="#terraform-backend-s3-bucket.TerraformStateBackendProperties.property.tableDeletionProtection">tableDeletionProtection</a></code> | <code>boolean</code> | Whether to protect the created DynamoDB table from being accidentally deleted. |
 
 ---
 
@@ -167,6 +168,8 @@ public readonly bucketName: string;
 
 - *Type:* string
 
+The name of the bucket to create.
+
 ---
 
 ##### `tableName`<sup>Required</sup> <a name="tableName" id="terraform-backend-s3-bucket.TerraformStateBackendProperties.property.tableName"></a>
@@ -176,6 +179,21 @@ public readonly tableName: string;
 ```
 
 - *Type:* string
+
+The name of the DynamoDB table to create.
+
+---
+
+##### `tableDeletionProtection`<sup>Optional</sup> <a name="tableDeletionProtection" id="terraform-backend-s3-bucket.TerraformStateBackendProperties.property.tableDeletionProtection"></a>
+
+```typescript
+public readonly tableDeletionProtection: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Whether to protect the created DynamoDB table from being accidentally deleted.
 
 ---
 
