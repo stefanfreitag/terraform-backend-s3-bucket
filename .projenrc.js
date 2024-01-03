@@ -5,17 +5,22 @@ const { UpgradeDependenciesSchedule } = require('projen/lib/javascript');
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Stefan Freitag',
   authorAddress: 'stefan.freitag@udo.edu',
-  cdkVersion: '2.114.1',
+  authorOrganization: false,
+  cdkVersion: '2.117.0',
   defaultReleaseBranch: 'main',
   name: 'terraform-backend-s3-bucket',
   description: 'Creates an S3 bucket and a DynamoDB table for Terraform state and lock management.',
   repositoryUrl:
     'https://github.com/stefanfreitag/terraform-backend-s3-bucket.git',
   codeCov: true,
+  jsiiVersion: '~5.3.2',
+  jestOptions: {
+    jestVersion: '^29',
+  },
   devDeps: [
-    '@aws-cdk/integ-tests-alpha@2.114.1-alpha.0',
-    '@aws-cdk/integ-runner@2.114.1-alpha.0',
-    'cdk-nag@2.27.211',
+    '@aws-cdk/integ-tests-alpha@2.117.0-alpha.0',
+    '@aws-cdk/integ-runner@2.117.0-alpha.0',
+    'cdk-nag@2.27.229',
     'ts-node',
   ],
   depsUpgradeOptions: {
@@ -24,6 +29,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     },
   },
   keywords: ['aws', 'backend', 's3', 'terraform'],
+  majorVersion: 1,
   stability: Stability.STABLE,
   publishToMaven: {
     javaPackage: 'io.github.stefanfreitag.cdk.terraformstatebackend',
@@ -48,9 +54,10 @@ const project = new awscdk.AwsCdkConstructLibrary({
       ignoreDeprecations: '5.0',
     },
   },
+  typescriptVersion: '~5.1.6'
 });
 
-const common_exclude = ['.history/'];
+const common_exclude = ['.history/','.dccache'];
 project.npmignore.exclude(...common_exclude);
 project.gitignore.exclude(...common_exclude);
 
