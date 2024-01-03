@@ -54,10 +54,10 @@ const project = new awscdk.AwsCdkConstructLibrary({
       ignoreDeprecations: '5.0',
     },
   },
-  typescriptVersion: '~5.1.6'
+  typescriptVersion: '~5.1.6',
 });
 
-const common_exclude = ['.history/','.dccache'];
+const common_exclude = ['.history/', '.dccache'];
 project.npmignore.exclude(...common_exclude);
 project.gitignore.exclude(...common_exclude);
 
