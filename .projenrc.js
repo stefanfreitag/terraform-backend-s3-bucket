@@ -6,7 +6,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Stefan Freitag',
   authorAddress: 'stefan.freitag@udo.edu',
   authorOrganization: false,
-  cdkVersion: '2.117.0',
+  cdkVersion: '2.161.0',
   defaultReleaseBranch: 'main',
   name: 'terraform-backend-s3-bucket',
   description: 'Creates an S3 bucket and a DynamoDB table for Terraform state and lock management.',
