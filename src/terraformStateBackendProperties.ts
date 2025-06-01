@@ -1,4 +1,4 @@
-export interface TerraformStateBackendProperties{
+export interface TerraformStateBackendProperties {
   /**
    * The name of the bucket to create.
    *
