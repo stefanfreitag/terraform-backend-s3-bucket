@@ -13,7 +13,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   repositoryUrl:
     'https://github.com/stefanfreitag/terraform-backend-s3-bucket.git',
   codeCov: true,
-  jsiiVersion: '~5.3.2',
+  jsiiVersion: '~5.9.0',
   jestOptions: {
     jestVersion: '^29',
   },
@@ -44,17 +44,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     module: 'terraform_backend_s3_bucket',
     distName: 'terraform-backend-s3-bucket',
   },
-  tsconfigDev: {
-    compilerOptions: {
-      ignoreDeprecations: '5.0',
-    },
-  },
-  tsconfig: {
-    compilerOptions: {
-      ignoreDeprecations: '5.0',
-    },
-  },
-  typescriptVersion: '~5.1.6',
+  typescriptVersion: '~5.9.0',
 });
 
 const common_exclude = ['.history/', '.dccache'];
