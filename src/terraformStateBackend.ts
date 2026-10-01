@@ -58,7 +58,9 @@ export class TerraformStateBackend extends Construct {
         name: 'LockID',
         type: dynamodb.AttributeType.STRING,
       },
-      pointInTimeRecovery: true,
+      pointInTimeRecoverySpecification: {
+        pointInTimeRecoveryEnabled: true,
+      },
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
